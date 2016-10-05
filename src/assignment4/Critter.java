@@ -173,14 +173,16 @@ public abstract class Critter {
 	 */
 	
 	public static List<Critter> clearDead(){ 
-	
-	//	return updated list of critters?; 
+		//TODO iterate through critterworld collection to subtract rest energy
+		//clear dead
+		//return updated list of critters?; 
 	}
 	
 	/**
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		
 	}
 	
 	public static void worldTimeStep() {
