@@ -1,0 +1,8 @@
+1. critter1-4 extends Critter
+need to write: -doTimeStep()
+				- fight
+
+2. worldTimeStep(), clearWorld()-clear everything, displayWorld()
+
+3. in Critter: 
+	clearDead(); 

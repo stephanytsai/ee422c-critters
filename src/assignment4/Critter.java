@@ -149,7 +149,7 @@ public abstract class Critter {
 		 * implemented for grading tests to work.
 		 */
 		protected static List<Critter> getPopulation() {
-			return population;
+			return population; //returns list of non-babies
 		}
 		
 		/*
@@ -159,10 +159,24 @@ public abstract class Critter {
 		 * at either the beginning OR the end of every timestep.
 		 */
 		protected static List<Critter> getBabies() {
-			return babies;
+			return babies; //returns list of babies
 		}
 	}
-
+	
+	
+	/**
+	 * subtracts rest_energy
+	 * clears dead critters from critterworld
+	 * returns updated list 
+	 * 
+	 * @return
+	 */
+	
+	public static List<Critter> clearDead(){ 
+	
+	//	return updated list of critters?; 
+	}
+	
 	/**
 	 * Clear the world of all critters, dead and alive
 	 */
@@ -170,6 +184,13 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		//TODO 
+		//invoke doTimeStep for each critter in critterworld
+		//encounters
+		//rest energy
+		//generate algae
+		//add babies to population
+		//clear dead
 	}
 	
 	public static void displayWorld() {}
