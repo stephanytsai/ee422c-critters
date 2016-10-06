@@ -50,10 +50,51 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
+		if (direction==0){
+			this.x_coord++;
+		}else if(direction==1){
+			this.x_coord++;
+			this.y_coord++;
+		}else if(direction==2){
+			this.y_coord++;
+		}else if(direction==3){
+			this.x_coord--;
+			this.y_coord++;
+		}else if (direction==4){
+			this.x_coord--;
+		}else if(direction==5){
+			this.x_coord--;
+			this.y_coord--;
+		}else if(direction==6){
+			this.y_coord--;
+		}else if(direction==7){
+			this.x_coord++;
+			this.y_coord--;
+		}
 	}
 	
 	protected final void run(int direction) {
-		
+		if (direction==0){
+			this.x_coord+=2;
+		}else if(direction==1){
+			this.x_coord+=2;
+			this.y_coord+=2;
+		}else if(direction==2){
+			this.y_coord+=2;
+		}else if(direction==3){
+			this.x_coord-=2;
+			this.y_coord+=2;
+		}else if (direction==4){
+			this.x_coord-=2;
+		}else if(direction==5){
+			this.x_coord-=2;
+			this.y_coord-=2;
+		}else if(direction==6){
+			this.y_coord-=2;
+		}else if(direction==7){
+			this.x_coord+=2;
+			this.y_coord-=2;
+		}
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
