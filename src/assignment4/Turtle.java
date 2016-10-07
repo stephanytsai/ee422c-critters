@@ -5,9 +5,7 @@ public class Turtle extends Critter {
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		this.walk(0);
-		int energy=this.getEnergy();
-		
+		this.walk(1); //energy level reduced in walk function
 	}
 
 	@Override

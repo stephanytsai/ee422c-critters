@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.util.Iterator;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -71,6 +72,8 @@ public abstract class Critter {
 			this.x_coord++;
 			this.y_coord--;
 		}
+		int energy=this.getEnergy();
+		energy=energy-Params.walk_energy_cost; //subtract energy needed to walk here
 	}
 	
 	protected final void run(int direction) {
@@ -95,6 +98,8 @@ public abstract class Critter {
 			this.x_coord+=2;
 			this.y_coord-=2;
 		}
+		int energy=this.getEnergy();
+		energy=energy-Params.run_energy_cost; 
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -234,6 +239,18 @@ public abstract class Critter {
 		//generate algae
 		//add babies to population
 		//clear dead
+		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Critter current; 
+		while(I.hasNext()){
+			current=(Critter) I.next();
+			current.doTimeStep();
+			//if more than one critter in space, 
+				//encounter
+			//rest energy
+			//clear dead?
+		}
+		//generate algae
+		//add babies to population
 	}
 	
 	public static void displayWorld() {}

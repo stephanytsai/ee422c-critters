@@ -5,7 +5,8 @@ public class Bear extends Critter {
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		
+		this.run(5);
+
 	}
 
 	@Override
