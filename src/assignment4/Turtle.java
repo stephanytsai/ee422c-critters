@@ -1,7 +1,11 @@
 package assignment4;
 
 public class Turtle extends Critter {
-
+	@Override
+	public String toString() {
+		return "t"; 
+	}
+	
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
