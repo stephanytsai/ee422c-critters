@@ -119,6 +119,7 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+
 	}
 	
 	/**
@@ -222,6 +223,18 @@ public abstract class Critter {
 		//TODO iterate through critterworld collection to subtract rest energy
 		//clear dead
 		//return updated list of critters?; 
+		Iterator I=CritterWorld.critterCollection.iterator();
+		Critter current;
+		while(I.hasNext()){
+			current=(Critter) I.next();
+			int energy= current.getEnergy();
+			energy=energy-Params.rest_energy_cost;
+			//current.setEnergy(energy);
+			if (energy<0){
+				//delete current
+			}
+		}
+		return CritterWorld.critterCollection; 
 	}
 	
 	/**

@@ -18,5 +18,10 @@ public class Bear extends Critter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public Bear() {
+		
+	}
 
 }
