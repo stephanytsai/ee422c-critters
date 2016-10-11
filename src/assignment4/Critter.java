@@ -108,6 +108,18 @@ public abstract class Critter {
 	public abstract void doTimeStep();
 	public abstract boolean fight(String oponent);
 	
+	protected void setEnergy(int new_energy_value) {
+		energy = new_energy_value;
+	}
+	
+	protected void setX_coord(int new_x_coord) {
+		x_coord = new_x_coord;
+	}
+	
+	protected void setY_coord(int new_y_coord) {
+		y_coord = new_y_coord;
+	}
+	
 	/**
 	 * create and initialize a Critter subclass.
 	 * critter_class_name must be the unqualified name of a concrete subclass of Critter, if not,
@@ -119,7 +131,24 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+<<<<<<< HEAD
 
+=======
+		
+		try { 
+		      Class critterType   = Class.forName(critter_class_name); 
+		      Critter critterInstance = (Critter) critterType.newInstance();
+
+
+		    } catch (ClassNotFoundException e) {
+		            System.out.println("Invalid Critter Exception");
+		    }
+	
+		critterInstance.setX_coord(getRandomInt(Params.world_width));
+		critterInstance.setY_coord(getRandomInt(Params.world_height));
+		critterInstance.setEnergy(getRandomInt(Params.start_energy));
+		
+>>>>>>> f3587ae47f8af5c8291fc421afefb9aadfc7e8e9
 	}
 	
 	/**

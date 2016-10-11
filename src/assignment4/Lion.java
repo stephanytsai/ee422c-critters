@@ -2,6 +2,13 @@ package assignment4;
 
 public class Lion extends Critter {
 	
+	public int dir;
+	
+	// Lion constructor
+	public Lion() {
+		dir = Critter.getRandomInt(8);
+	}
+	
 	// Represent the Lion Critter subclass with the char "L"
 	@Override
 	public String toString() {
@@ -12,7 +19,7 @@ public class Lion extends Critter {
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		this.walk(4);	
+		this.walk(dir);	
 		
 	}
 
