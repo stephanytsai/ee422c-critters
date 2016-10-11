@@ -2,6 +2,12 @@ package assignment4;
 
 public class Tiger extends Critter{
 	
+	public int dir;
+	// Tiger constructor
+	public Tiger() {
+		dir = Critter.getRandomInt(8);
+	}
+	
 	@Override
 	public String toString() {
 		return "T";
@@ -12,7 +18,7 @@ public class Tiger extends Critter{
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		this.run(7); 
+		this.run(dir); 
 		
 	}
 
