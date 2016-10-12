@@ -6,3 +6,5 @@ need to write: -doTimeStep()
 
 3. in Critter: 
 	clearDead(); 
+	
+	

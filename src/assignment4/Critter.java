@@ -296,6 +296,16 @@ public abstract class Critter {
 		//add babies to population
 	}
 	
+	
+	/**displayWorld()
+	 * create a matrix of values height x width
+	 * prints top border
+	 * for each critter in critter world
+	 * 		prints each position [row][col] of grid
+	 * end
+	 * prints bottom border
+	 * print matrix
+	 */
 	public static void displayWorld() {
 		//TODO
 		//create a matrix of values height+2 x width+2
@@ -304,7 +314,36 @@ public abstract class Critter {
 		// look at each position, this.toString() to place letter there
 		//end
 		//print matrix
-		Array WorldArray= new Array() ;
+		String array[][]=new String[Params.world_height+2][Params.world_width+2];  //height is rows, width is cols
+
+		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Critter current; 
+		while(I.hasNext()){
+			current=(Critter) I.next();
+			array[current.x_coord][current.y_coord]=current.toString(); 
+		}
 		
+		//printing first border
+		System.out.print("+"); //not println so won't have --- on a new line
+		for (int i=0; i<Params.world_height; i++){
+			System.out.print("-");
+		}
+		System.out.println("+"); //println moves cursor to new line after printing "+"
+		
+		//printing grid
+		for (int i=0; i<Params.world_height; i++){
+			System.out.print("|"); //side border
+			for (int j=0; j<Params.world_width; j++){ //prints each row
+				System.out.print(array[i][j]); 
+			}
+			System.out.println("|");
+		}
+		
+		//bottom border
+		System.out.print("+"); 
+		for (int i=0; i<Params.world_height; i++){
+			System.out.print("-");
+		}
+		System.out.println("+"); 		
 	}
 }
