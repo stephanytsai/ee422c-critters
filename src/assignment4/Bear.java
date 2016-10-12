@@ -19,9 +19,11 @@ public class Bear extends Critter {
 		return false;
 	}
 	
-	@Override
-	public Bear() {
-		
+	//TODO do we even need a constructor if this is done in makeCritter()?
+	public Bear(int start_energy) {
+		//get a random position
+		//get start energy?
+		super.setEnergy(start_energy); //TODO fix
 	}
 
 }

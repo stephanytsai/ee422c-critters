@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.List;
 
@@ -129,26 +130,26 @@ public abstract class Critter {
 	 * an Exception.)
 	 * @param critter_class_name
 	 * @throws InvalidCritterException
+	 * @throws IllegalAccessException 
 	 */
-	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-<<<<<<< HEAD
+	public static void makeCritter(String critter_class_name) throws InvalidCritterException, InstantiationException, ClassNotFoundException, IllegalAccessException {
+		Critter critterInstance = null;
+		Class critterType; 
 
-=======
-		
 		try { 
-		      Class critterType   = Class.forName(critter_class_name); 
-		      Critter critterInstance = (Critter) critterType.newInstance();
-
-
-		    } catch (ClassNotFoundException e) {
-		            System.out.println("Invalid Critter Exception");
-		    }
-	
-		critterInstance.setX_coord(getRandomInt(Params.world_width));
-		critterInstance.setY_coord(getRandomInt(Params.world_height));
-		critterInstance.setEnergy(getRandomInt(Params.start_energy));
+			critterType   = Class.forName(critter_class_name); 
+			critterInstance =  (Critter) critterType.newInstance(); 
+		} catch (ClassNotFoundException e) {
+		    throw new InvalidCritterException(e.toString());
+		} catch (IllegalAccessException | InstantiationException e){
+			throw new InvalidCritterException(e.toString());
+		}
 		
->>>>>>> f3587ae47f8af5c8291fc421afefb9aadfc7e8e9
+		(critterInstance).setX_coord(getRandomInt(Params.world_width));
+		(critterInstance).setY_coord(getRandomInt(Params.world_height));
+		(critterInstance).setEnergy(getRandomInt(Params.start_energy));
+		//TODO if critter is reproduced, energy reset in reproduce fxn
+		
 	}
 	
 	/**
@@ -295,5 +296,15 @@ public abstract class Critter {
 		//add babies to population
 	}
 	
-	public static void displayWorld() {}
+	public static void displayWorld() {
+		//TODO
+		//create a matrix of values height+2 x width+2
+		//make the border (+2 for borders)
+		//for each critter in critter world
+		// look at each position, this.toString() to place letter there
+		//end
+		//print matrix
+		Array WorldArray= new Array() ;
+		
+	}
 }

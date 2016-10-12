@@ -17,5 +17,9 @@ public class Turtle extends Critter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public Turtle(){
+		
+	}
 
 }
