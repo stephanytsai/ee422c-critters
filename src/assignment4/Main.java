@@ -34,7 +34,43 @@ public class Main {
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
     }
-
+    
+    /**
+     * 1. words in input array exist in valid word list?
+     * 		-yes: look at other words
+     * 		-no: is it an integer?
+     * 			-yes: look at other words
+     * 			-no: caught invalid word
+     * @param array
+     * @return true: all words 
+     */
+	public static boolean validInput (String[] array){
+		String[] valid={"make", "show", "step", "seed", "make", 
+				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
+				"Algae", "Craig"};
+		boolean gotvalid=false;
+		int num;
+		for (String word:array){
+			gotvalid=false;
+			for (String v:valid){
+				if(word.equals(v)){
+					gotvalid=true;
+					break;
+				}else{
+					try{
+						num=Integer.parseInt(word);
+						gotvalid=true;
+					}catch(NumberFormatException e){
+					}
+				}
+			}
+			if(gotvalid==false){
+				return false;
+			}			
+		}
+		return true;
+	}
+	
     /**
      * Main method.
      * @param args args can be empty.  If not empty, provide two parameters -- the first is a file name, 
@@ -68,9 +104,28 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
-        System.out.println("GLHF");
-        
+        String userinput;
+        String[] inputArray; //holds inputs
+        System.out.print("critters>");
+
+        while(kb.hasNext()){
+        	userinput= kb.nextLine();
+        	
+        //	inputArray=processInput(userinput, inputArray);
+        	
+        	userinput=userinput.trim();
+        	inputArray=userinput.split("\\s+"); 
+        	if(!validInput(inputArray)){
+        		System.out.println("error processing: "+userinput);	//TODO change to include "error processing: "	
+        		
+        	}
+        	
+        	//check order? if needed
+        	//check input and do stuff
+        	implementInput(Array); 
+
+            System.out.print("critters>");
+        }
         /* Write your code above */
         System.out.flush();
 
