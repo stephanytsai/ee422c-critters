@@ -34,42 +34,7 @@ public class Main {
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
     }
-    
-    /**
-     * 1. words in input array exist in valid word list?
-     * 		-yes: look at other words
-     * 		-no: is it an integer?
-     * 			-yes: look at other words
-     * 			-no: caught invalid word
-     * @param array
-     * @return true: all words 
-     */
-	public static boolean validInput (String[] array){
-		String[] valid={"make", "show", "step", "seed", "make", 
-				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
-				"Algae", "Craig"};
-		boolean gotvalid=false;
-		int num;
-		for (String word:array){
-			gotvalid=false;
-			for (String v:valid){
-				if(word.equals(v)){
-					gotvalid=true;
-					break;
-				}else{
-					try{
-						num=Integer.parseInt(word);
-						gotvalid=true;
-					}catch(NumberFormatException e){
-					}
-				}
-			}
-			if(gotvalid==false){
-				return false;
-			}			
-		}
-		return true;
-	}
+   
 	
     /**
      * Main method.
@@ -115,14 +80,15 @@ public class Main {
         	
         	userinput=userinput.trim();
         	inputArray=userinput.split("\\s+"); 
-        	if(!validInput(inputArray)){
+        	if(!Help.validInput(inputArray)){
         		System.out.println("error processing: "+userinput);	//TODO change to include "error processing: "	
-        		
+                System.out.print("critters>");
+        		continue;
         	}
         	
         	//check order? if needed
         	//check input and do stuff
-        	implementInput(Array); 
+        	Help.implementInput(inputArray, userinput); 
 
             System.out.print("critters>");
         }
