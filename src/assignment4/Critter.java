@@ -296,12 +296,26 @@ public abstract class Critter {
 	 * @param c2
 	 */
 	public static void resolveEncounter(Critter c1, Critter c2) {
+		//determine which critters want to attack and give them an attack power number
 		boolean c1fight = c1.fight(c2.toString());
 		boolean c2fight = c2.fight(c1.toString());
 		int c1Attack = 0;
 		int c2Attack = 0;
 		if(c1fight){ c1Attack = Critter.getRandomInt(c1.getEnergy());}
-		if(c1fight){ c2Attack = Critter.getRandomInt(c1.getEnergy());}
+		if(c2fight){ c2Attack = Critter.getRandomInt(c2.getEnergy());}
+		
+		//use attack power number to determine which critter wins 
+		//winner retains energy and is awarded 1/2 losers energy. Loser dies (Energy is set to <= 0).
+		if(c1Attack >= c2Attack){
+			int c1Energy = c1.getEnergy() + (c2.getEnergy()/2);
+			c1.setEnergy(c1Energy);
+			c2.setEnergy(0);
+		}
+		else{
+			int c2Energy = c2.getEnergy() + (c1.getEnergy()/2);
+			c2.setEnergy(c2Energy);
+			c1.setEnergy(0);
+		}
 	}
 	
 	
@@ -329,11 +343,14 @@ public abstract class Critter {
 			for(j=i+1; j<numCritters; j++){
 				Critter nextCritter = CritterWorld.critterCollection.get(j);
 				//compare current to nextCritter in terms of coordinate location
-				
+				if(current.isSamePostion(nextCritter)){
+					Critter.resolveEncounter(current, nextCritter);
+				}
 			}
 		}
 	//rest energy
 	//clear dead?
+		Critter.clearDead();
 		
 		//generate algae
 		//add babies to population
