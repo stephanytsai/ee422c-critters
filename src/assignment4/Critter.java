@@ -251,7 +251,7 @@ public abstract class Critter {
 	 * @return
 	 */
 	
-	public static List<Critter> clearDead(){ 
+	private static List<Critter> clearDead(){ 
 		//TODO iterate through critterworld collection to subtract rest energy
 		//clear dead
 		//return updated list of critters?; 
@@ -261,9 +261,9 @@ public abstract class Critter {
 			current=(Critter) I.next();
 			int energy= current.getEnergy();
 			energy=energy-Params.rest_energy_cost;
-			//current.setEnergy(energy);
-			if (energy<0){
-				//delete current
+			current.setEnergy(energy);
+			if (energy<=0){
+				I.remove(); 
 			}
 		}
 		return CritterWorld.critterCollection; 
@@ -273,6 +273,12 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Critter current;
+		while (I.hasNext()){
+			current=(Critter) I.next();
+			I.remove();
+		}
 		
 	}
 	
@@ -295,7 +301,7 @@ public abstract class Critter {
 	 * @param c1
 	 * @param c2
 	 */
-	public static void resolveEncounter(Critter c1, Critter c2) {
+	private static void resolveEncounter(Critter c1, Critter c2) {
 		//determine which critters want to attack and give them an attack power number
 		boolean c1fight = c1.fight(c2.toString());
 		boolean c2fight = c2.fight(c1.toString());
@@ -318,15 +324,15 @@ public abstract class Critter {
 		}
 	}
 	
-	
+	/**
+	 *invoke doTimeStep for each critter in critterworld
+	 *encounters
+	 *rest energy
+	 *generate algae
+	 *add babies to population
+	 *clear dead
+	 */
 	public static void worldTimeStep() {
-		//TODO 
-		//invoke doTimeStep for each critter in critterworld
-		//encounters
-		//rest energy
-		//generate algae
-		//add babies to population
-		//clear dead
 		Iterator critterIter= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
 		while(critterIter.hasNext()){
@@ -348,9 +354,8 @@ public abstract class Critter {
 				}
 			}
 		}
-	//rest energy
-	//clear dead?
-		Critter.clearDead();
+
+		Critter.clearDead(); //rest energy and clear dead
 		
 		//generate algae
 		//add babies to population
