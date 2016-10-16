@@ -50,6 +50,8 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
+	protected int getX(){ return x_coord;}
+	protected int getY(){ return y_coord;}
 	
 	protected final void walk(int direction) {
 		if (direction==0){
@@ -274,6 +276,35 @@ public abstract class Critter {
 		
 	}
 	
+	/**
+	 * Check to see if a critter (this) is in the same position as another critter (c2)
+	 * @param c2
+	 * @return
+	 */
+	public boolean isSamePostion(Critter c2) {
+		if ( (this.getX() == c2.getX()) && (this.getY() == c2.getY())){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Resolve encounter between two critters that occupy the same location
+	 * @param c1
+	 * @param c2
+	 */
+	public static void resolveEncounter(Critter c1, Critter c2) {
+		boolean c1fight = c1.fight(c2.toString());
+		boolean c2fight = c2.fight(c1.toString());
+		int c1Attack = 0;
+		int c2Attack = 0;
+		if(c1fight){ c1Attack = Critter.getRandomInt(c1.getEnergy());}
+		if(c1fight){ c2Attack = Critter.getRandomInt(c1.getEnergy());}
+	}
+	
+	
 	public static void worldTimeStep() {
 		//TODO 
 		//invoke doTimeStep for each critter in critterworld
@@ -282,16 +313,28 @@ public abstract class Critter {
 		//generate algae
 		//add babies to population
 		//clear dead
-		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Iterator critterIter= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
-		while(I.hasNext()){
-			current=(Critter) I.next();
+		while(critterIter.hasNext()){
+			current=(Critter) critterIter.next();
 			current.doTimeStep();
-			//if more than one critter in space, 
-				//encounter
-			//rest energy
-			//clear dead?
 		}
+		//if more than one critter in space, 
+		//encounter
+		int i;
+		int j;
+		int numCritters = CritterWorld.critterCollection.size();
+		for (i=0; i<numCritters; i++){
+			current = CritterWorld.critterCollection.get(i);
+			for(j=i+1; j<numCritters; j++){
+				Critter nextCritter = CritterWorld.critterCollection.get(j);
+				//compare current to nextCritter in terms of coordinate location
+				
+			}
+		}
+	//rest energy
+	//clear dead?
+		
 		//generate algae
 		//add babies to population
 	}

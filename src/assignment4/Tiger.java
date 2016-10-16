@@ -25,7 +25,7 @@ public class Tiger extends Critter{
 	@Override
 	public boolean fight(String oponent) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
