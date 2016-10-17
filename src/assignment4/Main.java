@@ -13,6 +13,7 @@
 package assignment4; // cannot be in default package
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 
 /*
@@ -44,8 +45,12 @@ public class Main {
      * @throws IllegalAccessException 
      * @throws ClassNotFoundException 
      * @throws InstantiationException 
+     * @throws InvocationTargetException 
+     * @throws IllegalArgumentException 
+     * @throws SecurityException 
+     * @throws NoSuchMethodException 
      */
-    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException { 
+    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException { 
         if (args.length != 0) {
             try {
                 inputFile = args[0];

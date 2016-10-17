@@ -171,9 +171,10 @@ public abstract class Critter {
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException, InstantiationException, ClassNotFoundException, IllegalAccessException {
 		Critter critterInstance = null;
 		Class critterType; 
-		
+		String name="";
 		try { 
-			critterType = Class.forName(critter_class_name); 
+			name=name.concat("assignment4."+critter_class_name);
+			critterType = Class.forName(name); 
 			critterInstance =  (Critter) critterType.newInstance(); 
 		} catch (ClassNotFoundException e) {
 			//throw new InvalidCritterException(e.toString());

@@ -20,7 +20,7 @@ public class Help {
 	 * checks if a is a critter type 
 	 * @param a
 	 * @return
-	 */
+	 */ //TODO no hard coding
 /*	public static boolean isType(String a){
 		String[] types={"Turtle", "Critter", "Lion", "Tiger",
 				"Bear", "Algae", "Craig"};
@@ -54,7 +54,7 @@ public class Help {
      * @param array
      * @return true: all words 
      */
-	public static boolean validInput (String[] array){ //deleted static from both
+	public static boolean validInput (String[] array){ //deleted static from both //TODO no hard coding critter types
 		String[] valid={"make", "show", "step", "seed", "make", 
 				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
 				"Algae", "Craig","quit"};
@@ -116,17 +116,24 @@ public class Help {
 			if(a.length==3 && isInt(a[2])){
 				numMake=Integer.parseInt(a[2]);
 			}
+			//TEST
+			//Critter test=new Turtle();
+			//String name= test.getClass().getName();
+			//System.out.println("test name: "+ name);
+			//TEST
 			
 			Critter critterInstance = null;
-			Class critterType; 
+			Class critterType = null; 
+			String holder="";
 			try { 
-				critterType = Class.forName(a[1]); 
-				critterInstance =  (Critter) critterType.newInstance(); 
+				holder=holder.concat("assignment4."+a[1]);
+				critterType = Class.forName(holder);
+				//critterInstance =  (Critter) critterType.newInstance(); 
 			} catch (ClassNotFoundException e) {
-				System.out.println("CLASS NOT FOUNDerror processing: "+user);
-			} catch (IllegalAccessException | InstantiationException e){
+				System.out.println("error processing: "+user);
+			} /*catch (IllegalAccessException | InstantiationException e){
 				System.out.println("ILLEGALerror processing: "+user);
-			}
+			}*/
 			
 			for(int i=0; i<numMake; i++){
 				Critter.makeCritter(a[1]);
