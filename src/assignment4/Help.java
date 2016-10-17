@@ -45,6 +45,8 @@ public class Help {
 			return false;
 		}
 	}
+	
+
     /**
      * 1. words in input array exist in valid word list?
      * 		-yes: look at other words
@@ -55,19 +57,28 @@ public class Help {
      * @return true: all words 
      */
 	public static boolean validInput (String[] array){ //deleted static from both //TODO no hard coding critter types
-		String[] valid={"make", "show", "step", "seed", "make", 
-				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
-				"Algae", "Craig","quit"};
+		String[] valid={"make", "show", "step", "seed", "stats","quit"};
 		boolean gotvalid=false;
 		int num;
+		Critter critterInstance = null;
+		Class critterType = null; 
+		String holder="";
+		
 		for (String word:array){
 			gotvalid=false;
 			if (isin(word,valid)){
 				gotvalid=true;
+			}else if (isInt(word)){
+				gotvalid=true;
 			}else{
-				if (isInt(word)){
-					gotvalid=true;
+				try{
+					holder=holder.concat("assignment4."+word);
+					critterType = Class.forName(holder);
+				}catch (ClassNotFoundException e) {
+				//	gotvalid=false;
+					return false;
 				}
+				gotvalid=true;
 			}
 			if(gotvalid==false){
 				return false;
@@ -99,12 +110,17 @@ public class Help {
 				System.out.println("WorldTimeStep once");//DEBUG
 			}else if (a.length==2 && isInt(a[1])){
 				int num=Integer.parseInt(a[1]);
+				if (num<=0){
+					System.out.println("invalid input: "+ user);
+					return;
+				}
 				for (int i=0; i<num; i++){
 					Critter.worldTimeStep(); //not tested yet
 				}
 				System.out.println("WorldTimeStep "+ a[1]);//DEBUG
 			}else{
-				System.out.println("invalid command: "+ user);
+				System.out.println("error processing: "+ user);
+				return;
 			}
 		}else if (a[0].equals("seed") && a.length==2){
 			if (isInt(a[1])){
@@ -112,28 +128,25 @@ public class Help {
 				System.out.println("Critter.setSeed()"); //DEBUG
 			}
 		}else if(a[0].equals("make") && (a.length==2 || a.length==3)){
-			int numMake=0;
+			int numMake=1;
 			if(a.length==3 && isInt(a[2])){
 				numMake=Integer.parseInt(a[2]);
 			}
-			//TEST
-			//Critter test=new Turtle();
-			//String name= test.getClass().getName();
-			//System.out.println("test name: "+ name);
-			//TEST
-			
+			if(numMake<=0){
+				System.out.println("invalid command: "+ user);
+				return;
+			}
+
 			Critter critterInstance = null;
 			Class critterType = null; 
 			String holder="";
 			try { 
 				holder=holder.concat("assignment4."+a[1]);
 				critterType = Class.forName(holder);
-				//critterInstance =  (Critter) critterType.newInstance(); 
 			} catch (ClassNotFoundException e) {
 				System.out.println("error processing: "+user);
-			} /*catch (IllegalAccessException | InstantiationException e){
-				System.out.println("ILLEGALerror processing: "+user);
-			}*/
+				return;
+			}
 			
 			for(int i=0; i<numMake; i++){
 				Critter.makeCritter(a[1]);
@@ -144,7 +157,8 @@ public class Help {
 			System.out.println("runStats()"); //DEBUG
 			
 		}else{
-			System.out.println("invalid command: "+ user);
+			System.out.println("error processing: "+ user);
+			return;
 		}
 	}
 }

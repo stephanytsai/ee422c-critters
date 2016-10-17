@@ -81,13 +81,14 @@ public class Main {
         String userinput;
         String[] inputArray; //holds inputs
         System.out.print("critters>");
+        CritterWorld world=new CritterWorld();
 
         while(kb.hasNext()){
         	userinput= kb.nextLine();        	
         	userinput=userinput.trim();
         	inputArray=userinput.split("\\s+"); 
         	if(!Help.validInput(inputArray)){
-        		System.out.println("error processing: "+userinput);		
+        		System.out.println("invalid command: "+userinput);		
                 System.out.print("critters>");
         		continue;
         	}
