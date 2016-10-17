@@ -40,8 +40,12 @@ public class Main {
      * Main method.
      * @param args args can be empty.  If not empty, provide two parameters -- the first is a file name, 
      * and the second is test (for test output, where all output to be directed to a String), or nothing.
+     * @throws InvalidCritterException 
+     * @throws IllegalAccessException 
+     * @throws ClassNotFoundException 
+     * @throws InstantiationException 
      */
-    public static void main(String[] args) { 
+    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException { 
         if (args.length != 0) {
             try {
                 inputFile = args[0];
@@ -74,22 +78,15 @@ public class Main {
         System.out.print("critters>");
 
         while(kb.hasNext()){
-        	userinput= kb.nextLine();
-        	
-        //	inputArray=processInput(userinput, inputArray);
-        	
+        	userinput= kb.nextLine();        	
         	userinput=userinput.trim();
         	inputArray=userinput.split("\\s+"); 
         	if(!Help.validInput(inputArray)){
-        		System.out.println("error processing: "+userinput);	//TODO change to include "error processing: "	
+        		System.out.println("error processing: "+userinput);		
                 System.out.print("critters>");
         		continue;
         	}
-        	
-        	//check order? if needed
-        	//check input and do stuff
-        	Help.implementInput(inputArray, userinput); 
-
+        	Help.implementInput(inputArray, userinput);  //check order
             System.out.print("critters>");
         }
         /* Write your code above */

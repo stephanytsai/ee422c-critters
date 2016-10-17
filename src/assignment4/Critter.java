@@ -56,24 +56,41 @@ public abstract class Critter {
 	protected final void walk(int direction) {
 		if (direction==0){
 			this.x_coord++;
+			this.x_coord%=Params.world_width; 
 		}else if(direction==1){
 			this.x_coord++;
 			this.y_coord++;
+			this.y_coord%=Params.world_height; 
+			this.x_coord%=Params.world_width; 
 		}else if(direction==2){
 			this.y_coord++;
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==3){
 			this.x_coord--;
 			this.y_coord++;
+			this.x_coord%=Params.world_width; 
+			this.y_coord%=Params.world_height; 
+
 		}else if (direction==4){
 			this.x_coord--;
+			this.x_coord%=Params.world_width; 
 		}else if(direction==5){
 			this.x_coord--;
 			this.y_coord--;
+			this.x_coord%=Params.world_width; 
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==6){
 			this.y_coord--;
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==7){
 			this.x_coord++;
 			this.y_coord--;
+			this.x_coord%=Params.world_width; 
+			this.y_coord%=Params.world_height; 
+
 		}
 		int energy=this.getEnergy();
 		energy=energy-Params.walk_energy_cost; //subtract energy needed to walk here
@@ -82,24 +99,41 @@ public abstract class Critter {
 	protected final void run(int direction) {
 		if (direction==0){
 			this.x_coord+=2;
+			this.x_coord%=Params.world_width; 
 		}else if(direction==1){
 			this.x_coord+=2;
 			this.y_coord+=2;
+			this.y_coord%=Params.world_height; 
+
+			this.x_coord%=Params.world_width; 
 		}else if(direction==2){
 			this.y_coord+=2;
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==3){
 			this.x_coord-=2;
 			this.y_coord+=2;
+			this.y_coord%=Params.world_height; 
+
+			this.x_coord%=Params.world_width; 
 		}else if (direction==4){
 			this.x_coord-=2;
 		}else if(direction==5){
 			this.x_coord-=2;
 			this.y_coord-=2;
+			this.x_coord%=Params.world_width; 
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==6){
 			this.y_coord-=2;
+			this.y_coord%=Params.world_height; 
+
 		}else if(direction==7){
 			this.x_coord+=2;
 			this.y_coord-=2;
+			this.x_coord%=Params.world_width; 
+			this.y_coord%=Params.world_height; 
+
 		}
 		int energy=this.getEnergy();
 		energy=energy-Params.run_energy_cost; 
@@ -137,14 +171,14 @@ public abstract class Critter {
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException, InstantiationException, ClassNotFoundException, IllegalAccessException {
 		Critter critterInstance = null;
 		Class critterType; 
-
+		
 		try { 
-			critterType   = Class.forName(critter_class_name); 
+			critterType = Class.forName(critter_class_name); 
 			critterInstance =  (Critter) critterType.newInstance(); 
 		} catch (ClassNotFoundException e) {
-		    throw new InvalidCritterException(e.toString());
+			//throw new InvalidCritterException(e.toString());
 		} catch (IllegalAccessException | InstantiationException e){
-			throw new InvalidCritterException(e.toString());
+			//throw new InvalidCritterException(e.toString());
 		}
 		
 		(critterInstance).setX_coord(getRandomInt(Params.world_width));
@@ -162,7 +196,20 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		Critter critterInstance = null;
+		Class critterType; 
+
+		try { 
+			critterType = Class.forName(critter_class_name); 
+		} catch (ClassNotFoundException e) {
+		    throw new InvalidCritterException(e.toString());
+		}
+		for (Critter c:CritterWorld.critterCollection){
+			if (c.getClass().equals(critterType)){ //add if same critter type
+				result.add(c);
+			}
+		}
+		
 		return result;
 	}
 	
@@ -228,6 +275,7 @@ public abstract class Critter {
 		 * implemented for grading tests to work.
 		 */
 		protected static List<Critter> getPopulation() {
+			population=CritterWorld.critterCollection; 
 			return population; //returns list of non-babies
 		}
 		
@@ -251,19 +299,16 @@ public abstract class Critter {
 	 * @return
 	 */
 	
-	public static List<Critter> clearDead(){ 
-		//TODO iterate through critterworld collection to subtract rest energy
-		//clear dead
-		//return updated list of critters?; 
+	private static List<Critter> clearDead(){ 
 		Iterator I=CritterWorld.critterCollection.iterator();
 		Critter current;
 		while(I.hasNext()){
 			current=(Critter) I.next();
 			int energy= current.getEnergy();
 			energy=energy-Params.rest_energy_cost;
-			//current.setEnergy(energy);
-			if (energy<0){
-				//delete current
+			current.setEnergy(energy);
+			if (energy<=0){
+				I.remove(); 
 			}
 		}
 		return CritterWorld.critterCollection; 
@@ -273,6 +318,12 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Critter current;
+		while (I.hasNext()){
+			current=(Critter) I.next();
+			I.remove();
+		}
 		
 	}
 	
@@ -295,7 +346,7 @@ public abstract class Critter {
 	 * @param c1
 	 * @param c2
 	 */
-	public static void resolveEncounter(Critter c1, Critter c2) {
+	private static void resolveEncounter(Critter c1, Critter c2) {
 		//determine which critters want to attack and give them an attack power number
 		boolean c1fight = c1.fight(c2.toString());
 		boolean c2fight = c2.fight(c1.toString());
@@ -318,15 +369,15 @@ public abstract class Critter {
 		}
 	}
 	
-	
+	/**
+	 *invoke doTimeStep for each critter in critterworld
+	 *encounters
+	 *rest energy
+	 *generate algae
+	 *add babies to population
+	 *clear dead
+	 */
 	public static void worldTimeStep() {
-		//TODO 
-		//invoke doTimeStep for each critter in critterworld
-		//encounters
-		//rest energy
-		//generate algae
-		//add babies to population
-		//clear dead
 		Iterator critterIter= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
 		while(critterIter.hasNext()){
@@ -348,11 +399,10 @@ public abstract class Critter {
 				}
 			}
 		}
-	//rest energy
-	//clear dead?
-		Critter.clearDead();
+
+		Critter.clearDead(); //rest energy and clear dead
 		
-		//generate algae
+		//TODO generate algae
 		//add babies to population
 	}
 	
@@ -367,34 +417,35 @@ public abstract class Critter {
 	 * print matrix
 	 */
 	public static void displayWorld() {
-		//TODO
-		//create a matrix of values height+2 x width+2
-		//make the border (+2 for borders)
-		//for each critter in critter world
-		// look at each position, this.toString() to place letter there
-		//end
-		//print matrix
 		String array[][]=new String[Params.world_height+2][Params.world_width+2];  //height is rows, width is cols
 
 		Iterator I= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
+		String word;
 		while(I.hasNext()){
 			current=(Critter) I.next();
-			array[current.x_coord][current.y_coord]=current.toString(); 
+		//	word=current.toString();
+			if(current!=null){
+				array[current.x_coord][current.y_coord]=current.toString();
+			}
 		}
 		
 		//printing first border
 		System.out.print("+"); //not println so won't have --- on a new line
 		for (int i=0; i<Params.world_height; i++){
-			System.out.print("-");
+			System.out.print(" -"); //TODO don't know if this has spaces
 		}
-		System.out.println("+"); //println moves cursor to new line after printing "+"
+		System.out.println(" +"); //println moves cursor to new line after printing "+"
 		
 		//printing grid
 		for (int i=0; i<Params.world_height; i++){
 			System.out.print("|"); //side border
 			for (int j=0; j<Params.world_width; j++){ //prints each row
-				System.out.print(array[i][j]); 
+				if(array[i][j]==null){
+					System.out.print(" "); 
+				}else{
+					System.out.print(array[i][j]); 
+				}
 			}
 			System.out.println("|");
 		}
@@ -402,7 +453,7 @@ public abstract class Critter {
 		//bottom border
 		System.out.print("+"); 
 		for (int i=0; i<Params.world_height; i++){
-			System.out.print("-");
+			System.out.print(" -");
 		}
 		System.out.println("+"); 		
 	}
