@@ -21,14 +21,14 @@ public class Help {
 	 * @param a
 	 * @return
 	 */
-	public static boolean isType(String a){
+/*	public static boolean isType(String a){
 		String[] types={"Turtle", "Critter", "Lion", "Tiger",
 				"Bear", "Algae", "Craig"};
 		if(isin(a,types)){
 			return true;
 		}
 		return false; 
-	}
+	}*/
 	
 	 /**
      * is the input an integer?
@@ -57,7 +57,7 @@ public class Help {
 	public static boolean validInput (String[] array){ //deleted static from both
 		String[] valid={"make", "show", "step", "seed", "make", 
 				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
-				"Algae", "Craig"};
+				"Algae", "Craig","quit"};
 		boolean gotvalid=false;
 		int num;
 		for (String word:array){
@@ -82,27 +82,33 @@ public class Help {
 	 * implements quit, make, show, step, seed, stats
 	 * @param a
 	 * @param user
+	 * @throws InvalidCritterException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException 
+	 * @throws InstantiationException 
 	 */
-	public static void implementInput(String[] a, String user){
+	public static void implementInput(String[] a, String user) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException{
 		if (a[0].equals("quit") && a.length==1){
 			System.exit(0); 
 		}else if (a[0].equals("show") && a.length==1){
-			//Critter.displayWorld();
-			System.out.println("displaying world");//DEBUG
+			Critter.displayWorld();
+		//	System.out.println("displaying world");//DEBUG
 		}else if (a[0].equals("step")){
 			if(a.length==1){
+				Critter.worldTimeStep(); //not tested yet
 				System.out.println("WorldTimeStep once");//DEBUG
 			}else if (a.length==2 && isInt(a[1])){
-				//world time step this a[1] times 
-				//run world time step here?
-				//parse to int
+				int num=Integer.parseInt(a[1]);
+				for (int i=0; i<num; i++){
+					Critter.worldTimeStep(); //not tested yet
+				}
 				System.out.println("WorldTimeStep "+ a[1]);//DEBUG
 			}else{
 				System.out.println("invalid command: "+ user);
 			}
 		}else if (a[0].equals("seed") && a.length==2){
 			if (isInt(a[1])){
-				//Critter.setSeed();
+				Critter.setSeed(Integer.parseInt(a[1])); //test? how?
 				System.out.println("Critter.setSeed()"); //DEBUG
 			}
 		}else if(a[0].equals("make") && (a.length==2 || a.length==3)){
@@ -110,12 +116,20 @@ public class Help {
 			if(a.length==3 && isInt(a[2])){
 				numMake=Integer.parseInt(a[2]);
 			}
-			if(isType(a[1])){
-				//for(int i=0; i<numMake; i++){make critters}
-					//Critter.makeCritter()
-				System.out.println("Critter.makeCritter(): "+ numMake); //DEBUG
-			}else{
-				System.out.println("invalid command: "+ user);
+			
+			Critter critterInstance = null;
+			Class critterType; 
+			try { 
+				critterType = Class.forName(a[1]); 
+				critterInstance =  (Critter) critterType.newInstance(); 
+			} catch (ClassNotFoundException e) {
+				System.out.println("CLASS NOT FOUNDerror processing: "+user);
+			} catch (IllegalAccessException | InstantiationException e){
+				System.out.println("ILLEGALerror processing: "+user);
+			}
+			
+			for(int i=0; i<numMake; i++){
+				Critter.makeCritter(a[1]);
 			}
 		}else if (a[0].equals("stats") && a.length==1){
 			//Critter.getInstances()
