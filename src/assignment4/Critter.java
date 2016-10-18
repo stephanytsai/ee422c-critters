@@ -56,40 +56,40 @@ public abstract class Critter {
 	protected final void walk(int direction) {
 		if (direction==0){
 			this.x_coord++;
-			this.x_coord%=Params.world_width; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
 		}else if(direction==1){
 			this.x_coord++;
 			this.y_coord++;
-			this.y_coord%=Params.world_height; 
-			this.x_coord%=Params.world_width; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
 		}else if(direction==2){
 			this.y_coord++;
-			this.y_coord%=Params.world_height; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==3){
 			this.x_coord--;
 			this.y_coord++;
-			this.x_coord%=Params.world_width; 
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if (direction==4){
 			this.x_coord--;
-			this.x_coord%=Params.world_width; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
 		}else if(direction==5){
 			this.x_coord--;
 			this.y_coord--;
-			this.x_coord%=Params.world_width; 
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==6){
 			this.y_coord--;
-			this.y_coord%=Params.world_height; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==7){
 			this.x_coord++;
 			this.y_coord--;
-			this.x_coord%=Params.world_width; 
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}
 		int energy=this.getEnergy();
@@ -99,40 +99,42 @@ public abstract class Critter {
 	protected final void run(int direction) {
 		if (direction==0){
 			this.x_coord+=2;
-			this.x_coord%=Params.world_width; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
 		}else if(direction==1){
 			this.x_coord+=2;
 			this.y_coord+=2;
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
-			this.x_coord%=Params.world_width; 
 		}else if(direction==2){
 			this.y_coord+=2;
-			this.y_coord%=Params.world_height; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==3){
 			this.x_coord-=2;
 			this.y_coord+=2;
-			this.y_coord%=Params.world_height; 
-
-			this.x_coord%=Params.world_width; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			
 		}else if (direction==4){
 			this.x_coord-=2;
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
 		}else if(direction==5){
 			this.x_coord-=2;
 			this.y_coord-=2;
-			this.x_coord%=Params.world_width; 
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==6){
 			this.y_coord-=2;
-			this.y_coord%=Params.world_height; 
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}else if(direction==7){
 			this.x_coord+=2;
 			this.y_coord-=2;
-			this.x_coord%=Params.world_width; 
-			this.y_coord%=Params.world_height; 
+			this.x_coord= Math.floorMod(this.x_coord, Params.world_width);
+			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
+ 
 
 		}
 		int energy=this.getEnergy();
@@ -355,12 +357,23 @@ public abstract class Critter {
 	 */
 	private static void resolveEncounter(Critter c1, Critter c2) {
 		//determine which critters want to attack and give them an attack power number
-		boolean c1fight = c1.fight(c2.toString());
+		boolean c1fight = c1.fight(c2.toString()); 
 		boolean c2fight = c2.fight(c1.toString());
 		int c1Attack = 0;
 		int c2Attack = 0;
-		if(c1fight){ c1Attack = Critter.getRandomInt(c1.getEnergy());}
-		if(c2fight){ c2Attack = Critter.getRandomInt(c2.getEnergy());}
+		
+	
+		if (c1.getEnergy()>0 && c1fight){
+			c1Attack = Critter.getRandomInt(c1.getEnergy());
+		}else if (c2.getEnergy()>0 && c2fight){
+			c2Attack = Critter.getRandomInt(c2.getEnergy());
+		}else if (c2.getEnergy()<=0){
+			c2.setEnergy(0);
+		}else if (c1.getEnergy()<=0){
+			c1.setEnergy(0);
+		}
+	//	if(c1fight){ c1Attack = Critter.getRandomInt(c1.getEnergy());}
+	//	if(c2fight){ c2Attack = Critter.getRandomInt(c2.getEnergy());}
 		
 		//use attack power number to determine which critter wins 
 		//winner retains energy and is awarded 1/2 losers energy. Loser dies (Energy is set to <= 0).
@@ -431,14 +444,13 @@ public abstract class Critter {
 		String word;
 		while(I.hasNext()){
 			current=(Critter) I.next();
-		//	if(current!=null){
-				array[current.x_coord][current.y_coord]=current.toString();
-			//}
-		}
-		/*
-		for (int i=0; i<CritterWorld.critterCollection.size(); i++){
+			/*int x=current.getX(); //DEBUG
+			int y=current.getY();
+			System.out.println("x: "+ x+" y: "+y);*/
+			array[current.x_coord][current.y_coord]=current.toString();
 			
-		}*/
+		}
+
 		
 		//printing first border
 		System.out.print("+"); //not println so won't have --- on a new line

@@ -82,7 +82,8 @@ public class Main {
         String[] inputArray; //holds inputs
         System.out.print("critters>");
         CritterWorld world=new CritterWorld();
-
+        boolean quit=false; 
+        
         while(kb.hasNext()){
         	userinput= kb.nextLine();        	
         	userinput=userinput.trim();
@@ -92,8 +93,10 @@ public class Main {
                 System.out.print("critters>");
         		continue;
         	}
-        	Help.implementInput(inputArray, userinput);  //check order
-            System.out.print("critters>");
+        	if(Help.implementInput(inputArray, userinput)){  //check order
+        		break;
+        	}
+        	System.out.print("critters>");
         }
         /* Write your code above */
         System.out.flush();

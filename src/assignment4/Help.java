@@ -98,34 +98,38 @@ public class Help {
 	 * @throws ClassNotFoundException 
 	 * @throws InstantiationException 
 	 */
-	public static void implementInput(String[] a, String user) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException{
+	public static boolean implementInput(String[] a, String user) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException{
 		if (a[0].equals("quit") && a.length==1){
-			System.exit(0); 
+			return true;
 		}else if (a[0].equals("show") && a.length==1){
 			Critter.displayWorld();
+			return false;
 		//	System.out.println("displaying world");//DEBUG
 		}else if (a[0].equals("step")){
 			if(a.length==1){
 				Critter.worldTimeStep(); //not tested yet
-				System.out.println("WorldTimeStep once");//DEBUG
+				//System.out.println("WorldTimeStep once");//DEBUG
+				return false;
 			}else if (a.length==2 && isInt(a[1])){
 				int num=Integer.parseInt(a[1]);
 				if (num<=0){
 					System.out.println("invalid input: "+ user);
-					return;
+					return false;
 				}
 				for (int i=0; i<num; i++){
 					Critter.worldTimeStep(); //not tested yet
 				}
-				System.out.println("WorldTimeStep "+ a[1]);//DEBUG
+				//System.out.println("WorldTimeStep "+ a[1]);//DEBUG
+				return false;
 			}else{
 				System.out.println("error processing: "+ user);
-				return;
+				return false;
 			}
 		}else if (a[0].equals("seed") && a.length==2){
 			if (isInt(a[1])){
 				Critter.setSeed(Integer.parseInt(a[1])); //test? how?
 				System.out.println("Critter.setSeed()"); //DEBUG
+				return false;
 			}
 		}else if(a[0].equals("make") && (a.length==2 || a.length==3)){
 			int numMake=1;
@@ -134,7 +138,7 @@ public class Help {
 			}
 			if(numMake<=0){
 				System.out.println("invalid command: "+ user);
-				return;
+				return false;
 			}
 
 			Critter critterInstance = null;
@@ -145,20 +149,22 @@ public class Help {
 				critterType = Class.forName(holder);
 			} catch (ClassNotFoundException e) {
 				System.out.println("error processing: "+user);
-				return;
+				return false;
 			}
 			
 			for(int i=0; i<numMake; i++){
 				Critter.makeCritter(a[1]);
 			}
+			return false;
 		}else if (a[0].equals("stats") && a.length==1){
 			//Critter.getInstances()
 				//types.runStats()
 			System.out.println("runStats()"); //DEBUG
-			
+			return false;
 		}else{
 			System.out.println("error processing: "+ user);
-			return;
+			return false;
 		}
+		return false;
 	}
 }
