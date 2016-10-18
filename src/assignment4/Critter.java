@@ -146,8 +146,17 @@ public abstract class Critter {
 	 * @param offspring
 	 * @param direction
 	 */
+	@SuppressWarnings("unchecked")
 	protected final void reproduce(Critter offspring, int direction) {
+		offspring.setEnergy(this.getEnergy()/2);
 		offspring.walk(direction);
+		Iterator I=babies.iterator();
+		Critter current;
+		while(I.hasNext()){
+			current=(Critter) I.next();
+		}
+		babies.add(offspring); 
+		
 	}
 
 	public abstract void doTimeStep();
@@ -425,11 +434,16 @@ public abstract class Critter {
 				}
 			}
 		}
-
-		Critter.clearDead(); //rest energy and clear dead
+ 
 		
 		//TODO generate algae
 		//add babies to population
+		Iterator babiesI= babies.iterator(); 
+		Critter currentB;
+		while (babiesI.hasNext()){
+			CritterWorld.critterCollection.add((Critter) babiesI.next());
+		}
+		Critter.clearDead(); //rest energy and clear dead
 	}
 	
 	
