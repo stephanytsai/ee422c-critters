@@ -1,5 +1,7 @@
 package assignment4;
 
+import java.util.List;
+
 public class Help {
 	/**
 	 * checks if a word is in a String[]
@@ -156,10 +158,20 @@ public class Help {
 				Critter.makeCritter(a[1]);
 			}
 			return false;
-		}else if (a[0].equals("stats") && a.length==1){
-			//Critter.getInstances()
-				//types.runStats()
-			System.out.println("runStats()"); //DEBUG
+		}else if (a[0].equals("stats") && a.length==2){
+			String holder="";
+			Class critterType;
+			try { 
+				holder=holder.concat("assignment4."+a[1]);
+				critterType = Class.forName(holder);
+			} catch (ClassNotFoundException e) {
+				System.out.println("error processing: "+user);
+				return false;
+			}
+			List<Critter> types=Critter.getInstances(holder);
+			Critter.runStats(types);
+			
+//			System.out.println("runStats()"); //DEBUG
 			return false;
 		}else{
 			System.out.println("error processing: "+ user);
