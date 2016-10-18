@@ -13,6 +13,7 @@
 package assignment4; // cannot be in default package
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 
 /*
@@ -44,8 +45,12 @@ public class Main {
      * @throws IllegalAccessException 
      * @throws ClassNotFoundException 
      * @throws InstantiationException 
+     * @throws InvocationTargetException 
+     * @throws IllegalArgumentException 
+     * @throws SecurityException 
+     * @throws NoSuchMethodException 
      */
-    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException { 
+    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException { 
         if (args.length != 0) {
             try {
                 inputFile = args[0];
@@ -76,18 +81,22 @@ public class Main {
         String userinput;
         String[] inputArray; //holds inputs
         System.out.print("critters>");
-
+        CritterWorld world=new CritterWorld();
+        boolean quit=false; 
+        
         while(kb.hasNext()){
         	userinput= kb.nextLine();        	
         	userinput=userinput.trim();
         	inputArray=userinput.split("\\s+"); 
         	if(!Help.validInput(inputArray)){
-        		System.out.println("error processing: "+userinput);		
+        		System.out.println("invalid command: "+userinput);		
                 System.out.print("critters>");
         		continue;
         	}
-        	Help.implementInput(inputArray, userinput);  //check order
-            System.out.print("critters>");
+        	if(Help.implementInput(inputArray, userinput)){  //check order
+        		break;
+        	}
+        	System.out.print("critters>");
         }
         /* Write your code above */
         System.out.flush();

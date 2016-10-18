@@ -20,7 +20,7 @@ public class Help {
 	 * checks if a is a critter type 
 	 * @param a
 	 * @return
-	 */
+	 */ //TODO no hard coding
 /*	public static boolean isType(String a){
 		String[] types={"Turtle", "Critter", "Lion", "Tiger",
 				"Bear", "Algae", "Craig"};
@@ -45,6 +45,8 @@ public class Help {
 			return false;
 		}
 	}
+	
+
     /**
      * 1. words in input array exist in valid word list?
      * 		-yes: look at other words
@@ -54,20 +56,29 @@ public class Help {
      * @param array
      * @return true: all words 
      */
-	public static boolean validInput (String[] array){ //deleted static from both
-		String[] valid={"make", "show", "step", "seed", "make", 
-				"stats","Turtle","Tiger", "Lion", "Bear", "TestCritter",
-				"Algae", "Craig","quit"};
+	public static boolean validInput (String[] array){ //deleted static from both //TODO no hard coding critter types
+		String[] valid={"make", "show", "step", "seed", "stats","quit"};
 		boolean gotvalid=false;
 		int num;
+		Critter critterInstance = null;
+		Class critterType = null; 
+		String holder="";
+		
 		for (String word:array){
 			gotvalid=false;
 			if (isin(word,valid)){
 				gotvalid=true;
+			}else if (isInt(word)){
+				gotvalid=true;
 			}else{
-				if (isInt(word)){
-					gotvalid=true;
+				try{
+					holder=holder.concat("assignment4."+word);
+					critterType = Class.forName(holder);
+				}catch (ClassNotFoundException e) {
+				//	gotvalid=false;
+					return false;
 				}
+				gotvalid=true;
 			}
 			if(gotvalid==false){
 				return false;
@@ -87,57 +98,73 @@ public class Help {
 	 * @throws ClassNotFoundException 
 	 * @throws InstantiationException 
 	 */
-	public static void implementInput(String[] a, String user) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException{
+	public static boolean implementInput(String[] a, String user) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException{
 		if (a[0].equals("quit") && a.length==1){
-			System.exit(0); 
+			return true;
 		}else if (a[0].equals("show") && a.length==1){
 			Critter.displayWorld();
+			return false;
 		//	System.out.println("displaying world");//DEBUG
 		}else if (a[0].equals("step")){
 			if(a.length==1){
 				Critter.worldTimeStep(); //not tested yet
-				System.out.println("WorldTimeStep once");//DEBUG
+				//System.out.println("WorldTimeStep once");//DEBUG
+				return false;
 			}else if (a.length==2 && isInt(a[1])){
 				int num=Integer.parseInt(a[1]);
+				if (num<=0){
+					System.out.println("invalid input: "+ user);
+					return false;
+				}
 				for (int i=0; i<num; i++){
 					Critter.worldTimeStep(); //not tested yet
 				}
-				System.out.println("WorldTimeStep "+ a[1]);//DEBUG
+				//System.out.println("WorldTimeStep "+ a[1]);//DEBUG
+				return false;
 			}else{
-				System.out.println("invalid command: "+ user);
+				System.out.println("error processing: "+ user);
+				return false;
 			}
 		}else if (a[0].equals("seed") && a.length==2){
 			if (isInt(a[1])){
 				Critter.setSeed(Integer.parseInt(a[1])); //test? how?
 				System.out.println("Critter.setSeed()"); //DEBUG
+				return false;
 			}
 		}else if(a[0].equals("make") && (a.length==2 || a.length==3)){
-			int numMake=0;
+			int numMake=1;
 			if(a.length==3 && isInt(a[2])){
 				numMake=Integer.parseInt(a[2]);
 			}
-			
+			if(numMake<=0){
+				System.out.println("invalid command: "+ user);
+				return false;
+			}
+
 			Critter critterInstance = null;
-			Class critterType; 
+			Class critterType = null; 
+			String holder="";
 			try { 
-				critterType = Class.forName(a[1]); 
-				critterInstance =  (Critter) critterType.newInstance(); 
+				holder=holder.concat("assignment4."+a[1]);
+				critterType = Class.forName(holder);
 			} catch (ClassNotFoundException e) {
-				System.out.println("CLASS NOT FOUNDerror processing: "+user);
-			} catch (IllegalAccessException | InstantiationException e){
-				System.out.println("ILLEGALerror processing: "+user);
+				System.out.println("error processing: "+user);
+				return false;
 			}
 			
 			for(int i=0; i<numMake; i++){
 				Critter.makeCritter(a[1]);
 			}
+			return false;
 		}else if (a[0].equals("stats") && a.length==1){
 			//Critter.getInstances()
 				//types.runStats()
 			System.out.println("runStats()"); //DEBUG
-			
+			return false;
 		}else{
-			System.out.println("invalid command: "+ user);
+			System.out.println("error processing: "+ user);
+			return false;
 		}
+		return false;
 	}
 }
