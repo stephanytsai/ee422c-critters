@@ -443,6 +443,7 @@ public abstract class Critter {
 		while (babiesI.hasNext()){
 			CritterWorld.critterCollection.add((Critter) babiesI.next());
 		}
+		babies.clear();
 		Critter.clearDead(); //rest energy and clear dead
 	}
 	

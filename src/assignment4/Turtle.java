@@ -16,9 +16,9 @@ public class Turtle extends Critter {
 			offspring.setEnergy(new_energy_value);=this.getEnergy()/2;
 			this.reproduce(offspring, 0);
 		} //DEBUG help
-		
+		*/
 		this.walk(1); //energy level reduced in walk function
-	}*/ 
+	}
 
 	@Override
 	public boolean fight(String oponent) {
