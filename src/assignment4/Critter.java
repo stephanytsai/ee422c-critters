@@ -141,7 +141,13 @@ public abstract class Critter {
 		energy=energy-Params.run_energy_cost; 
 	}
 	
+	/**
+	 * Places the new offspring in an adjacent coordinate location to the parent, according to the direction that is passed
+	 * @param offspring
+	 * @param direction
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
+		offspring.walk(direction);
 	}
 
 	public abstract void doTimeStep();
@@ -414,7 +420,7 @@ public abstract class Critter {
 			for(j=i+1; j<numCritters; j++){
 				Critter nextCritter = CritterWorld.critterCollection.get(j);
 				//compare current to nextCritter in terms of coordinate location
-				if(current.isSamePostion(nextCritter)){
+				if(current.isSamePostion(nextCritter) && (current.getEnergy()*nextCritter.getEnergy() > 0)){
 					Critter.resolveEncounter(current, nextCritter);
 				}
 			}
