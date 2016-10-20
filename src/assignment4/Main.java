@@ -50,7 +50,7 @@ public class Main {
      * @throws SecurityException 
      * @throws NoSuchMethodException 
      */
-    public static void main(String[] args) throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException { 
+    public static void main(String[] args)  { 
         if (args.length != 0) {
             try {
                 inputFile = args[0];
@@ -93,9 +93,14 @@ public class Main {
                 System.out.print("critters>");
         		continue;
         	}
-        	if(Help.implementInput(inputArray, userinput)){  //check order
-        		break;
-        	}
+        	try {
+				if(Help.implementInput(inputArray, userinput)){  //check order
+					break;
+				}
+			} catch (InstantiationException | ClassNotFoundException | IllegalAccessException
+					| InvalidCritterException e) {
+				//does nothing if caught, this replaces the change to main signature
+			}
         	System.out.print("critters>");
         }
         /* Write your code above */

@@ -423,6 +423,8 @@ public abstract class Critter {
 		while(critterIter.hasNext()){
 			current=(Critter) critterIter.next();
 			current.doTimeStep();
+			System.out.println("rest energy~~~~~~~~~~~~~~~");
+			current.setEnergy(current.getEnergy()-Params.rest_energy_cost);
 		}
 		//if more than one critter in space, 
 		//encounter
