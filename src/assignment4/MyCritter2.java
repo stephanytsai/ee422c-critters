@@ -1,21 +1,21 @@
 /*
- *Tiger runs in a random direction at each time step. 
- *On the board, tigers will show as a "T". Tigers
- *do not reproduce.  
+ *MyCritter2 runs in a random direction at each time step. 
+ *On the board, it will show as a "2". It
+ *do not reproduce. They will always fight when encountered.  
  */
 package assignment4;
 
-public class Tiger extends Critter{
+public class MyCritter2 extends Critter{
 	
 	public int dir;
 	// Tiger constructor
-	public Tiger() {
+	public MyCritter2() {
 		dir = Critter.getRandomInt(8);
 	}
 	
 	@Override
 	public String toString() {
-		return "T";
+		return "2";
 	}
 	
 	

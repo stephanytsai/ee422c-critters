@@ -1,14 +1,14 @@
 /*
- *Turtle walks in the 1 direction each time step.
- *Turtles do not reproduce. They only fight when encountered.
- *They will show on the board as a "t".  
+ *MyCritter3 walks in the 1 direction each time step.
+ *They do not reproduce. They will always fight 
+ *when encountered. They will show on the board as a "3".  
  */
 package assignment4;
 
-public class Turtle extends Critter {
+public class MyCritter3 extends Critter {
 	@Override
 	public String toString() {
-		return "t"; 
+		return "3"; 
 	}
 	
 	@Override
