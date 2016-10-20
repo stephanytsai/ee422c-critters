@@ -22,6 +22,7 @@ import java.util.List;
  */
 
 
+
 public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
@@ -92,8 +93,7 @@ public abstract class Critter {
 			this.y_coord= Math.floorMod(this.y_coord, Params.world_height);
 
 		}
-		int energy=this.getEnergy();
-		energy=energy-Params.walk_energy_cost; //subtract energy needed to walk here
+		this.setEnergy(this.getEnergy()-Params.walk_energy_cost);
 	}
 	
 	protected final void run(int direction) {
@@ -137,8 +137,8 @@ public abstract class Critter {
  
 
 		}
-		int energy=this.getEnergy();
-		energy=energy-Params.run_energy_cost; 
+		this.setEnergy(this.getEnergy()-Params.run_energy_cost);
+
 	}
 	
 	/**
@@ -148,7 +148,8 @@ public abstract class Critter {
 	 */
 	@SuppressWarnings("unchecked")
 	protected final void reproduce(Critter offspring, int direction) {
-		offspring.setEnergy(this.getEnergy()/2);
+		this.setEnergy(Math.floorDiv(this.getEnergy(), 2)+1);
+		offspring.setEnergy(Math.floorDiv(this.getEnergy(), 2));
 		offspring.walk(direction);
 		Iterator I=babies.iterator();
 		Critter current;
@@ -204,7 +205,7 @@ public abstract class Critter {
 		
 		(critterInstance).setX_coord(getRandomInt(Params.world_width));
 		(critterInstance).setY_coord(getRandomInt(Params.world_height));
-		(critterInstance).setEnergy(getRandomInt(Params.start_energy));
+		(critterInstance).setEnergy(Params.start_energy);
 		
 		CritterWorld.critterCollection.add(critterInstance); //ADDING CRITTER
 		
@@ -387,8 +388,6 @@ public abstract class Critter {
 		}else if (c1.getEnergy()<=0){
 			c1.setEnergy(0);
 		}
-	//	if(c1fight){ c1Attack = Critter.getRandomInt(c1.getEnergy());}
-	//	if(c2fight){ c2Attack = Critter.getRandomInt(c2.getEnergy());}
 		
 		//use attack power number to determine which critter wins 
 		//winner retains energy and is awarded 1/2 losers energy. Loser dies (Energy is set to <= 0).
@@ -396,8 +395,10 @@ public abstract class Critter {
 			int c1Energy = c1.getEnergy() + (c2.getEnergy()/2);
 			c1.setEnergy(c1Energy);
 			c2.setEnergy(0);
-		}
-		else{
+		}else if(c1Attack==0 && c2Attack==0){
+			//Algae overlapping 
+			c1.setEnergy(0);
+		}else{
 			int c2Energy = c2.getEnergy() + (c1.getEnergy()/2);
 			c2.setEnergy(c2Energy);
 			c1.setEnergy(0);
@@ -411,8 +412,12 @@ public abstract class Critter {
 	 *generate algae
 	 *add babies to population
 	 *clear dead
+	 * @throws InvalidCritterException 
+	 * @throws IllegalAccessException 
+	 * @throws ClassNotFoundException 
+	 * @throws InstantiationException 
 	 */
-	public static void worldTimeStep() {
+	public static void worldTimeStep() throws InstantiationException, ClassNotFoundException, IllegalAccessException, InvalidCritterException {
 		Iterator critterIter= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
 		while(critterIter.hasNext()){
@@ -434,9 +439,24 @@ public abstract class Critter {
 				}
 			}
 		}
- 
 		
-		//TODO generate algae
+		//subtract rest energy
+		Iterator I= CritterWorld.critterCollection.iterator(); 
+		Critter curr; 
+		while(critterIter.hasNext()){
+			curr=(Critter) I.next();
+			curr.setEnergy(curr.getEnergy()-Params.rest_energy_cost);
+		}
+		
+		//adding algae   //ERROR HERE!!!! TODO the rest energies aren't subtracting, algae adding too much energy
+		for (int k=0; k<Params.refresh_algae_count; k++){
+			Critter offspring=new Algae(); 
+			offspring.setEnergy(Params.start_energy);
+			offspring.setX_coord(getRandomInt(Params.world_width));  
+			offspring.setY_coord(getRandomInt(Params.world_height));
+			CritterWorld.critterCollection.add(offspring);
+		}
+		
 		//add babies to population
 		Iterator babiesI= babies.iterator(); 
 		Critter currentB;
@@ -468,6 +488,8 @@ public abstract class Critter {
 			/*int x=current.getX(); //DEBUG
 			int y=current.getY();
 			System.out.println("x: "+ x+" y: "+y);*/
+			int x=current.getEnergy();
+			System.out.println("Energy: " + current.getClass()+ " "+ x);  //DEBUG
 			array[current.x_coord][current.y_coord]=current.toString();
 			
 		}

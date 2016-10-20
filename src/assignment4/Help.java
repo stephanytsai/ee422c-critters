@@ -169,9 +169,7 @@ public class Help {
 				return false;
 			}
 			List<Critter> types=Critter.getInstances(holder);
-			Critter.runStats(types);
-			
-//			System.out.println("runStats()"); //DEBUG
+			Critter.runStats(types);			
 			return false;
 		}else{
 			System.out.println("error processing: "+ user);

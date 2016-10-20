@@ -19,8 +19,12 @@ public class Lion extends Critter {
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		this.walk(dir);	
 		
+		if (this.getEnergy()>150){
+			Lion offspring=new Lion();
+			this.reproduce(offspring, 0);
+		}
+		this.walk(dir);	
 	}
 
 	@Override
