@@ -423,7 +423,6 @@ public abstract class Critter {
 		while(critterIter.hasNext()){
 			current=(Critter) critterIter.next();
 			current.doTimeStep();
-			System.out.println("rest energy~~~~~~~~~~~~~~~");
 			current.setEnergy(current.getEnergy()-Params.rest_energy_cost);
 		}
 		//if more than one critter in space, 
@@ -487,11 +486,8 @@ public abstract class Critter {
 		String word;
 		while(I.hasNext()){
 			current=(Critter) I.next();
-			/*int x=current.getX(); //DEBUG
-			int y=current.getY();
-			System.out.println("x: "+ x+" y: "+y);*/
 			int x=current.getEnergy();
-			System.out.println("Energy: " + current.getClass()+ " "+ x);  //DEBUG
+		//	System.out.println("Energy: " + current.getClass()+ " "+ x);  //DEBUG
 			array[current.x_coord][current.y_coord]=current.toString();
 			
 		}

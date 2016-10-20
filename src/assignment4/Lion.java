@@ -1,3 +1,9 @@
+/*
+ * Lion walks in a random direction each time step if its 
+ * energy is less than or equal to 150. Otherwise, it will
+ * reproduce and the offspring will be in the space to the 
+ * right of it parent. Lions will be shown with an "L".
+ */
 package assignment4;
 
 public class Lion extends Critter {
@@ -23,8 +29,9 @@ public class Lion extends Critter {
 		if (this.getEnergy()>150){
 			Lion offspring=new Lion();
 			this.reproduce(offspring, 0);
+		}else{
+			this.walk(dir);
 		}
-		this.walk(dir);	
 	}
 
 	@Override

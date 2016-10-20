@@ -1,3 +1,8 @@
+/*
+ *Tiger runs in a random direction at each time step. 
+ *On the board, tigers will show as a "T". Tigers
+ *do not reproduce.  
+ */
 package assignment4;
 
 public class Tiger extends Critter{

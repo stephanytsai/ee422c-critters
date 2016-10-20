@@ -85,8 +85,11 @@ public class Main {
         boolean quit=false; 
         
         while(kb.hasNext()){
-        	userinput= kb.nextLine();        	
-        	userinput=userinput.trim();
+        	userinput= kb.nextLine();
+           	userinput=userinput.trim();
+        	if (userinput.isEmpty()){ //accounts for new line before command
+        		continue; 
+        	}
         	inputArray=userinput.split("\\s+"); 
         	if(!Help.validInput(inputArray)){
         		System.out.println("invalid command: "+userinput);		
