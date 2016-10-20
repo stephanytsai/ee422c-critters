@@ -1,4 +1,18 @@
+/* CRITTERS <MyCritter4.java>
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * <Stephany Tsai>
+ * <st26536>
+ * <16445>
+ * <Rajan Makanji>
+ * <rm45378>
+ * <16445>
+ * Slip days used: <0>
+ * Fall 2016
+ */
+
 /*
+
  *MyCritter3 walks in the 1 direction each time step.
  *They do not reproduce. They will always fight 
  *when encountered. They will show on the board as a "3".  
