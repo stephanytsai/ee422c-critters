@@ -15,14 +15,17 @@ package assignment4; // cannot be in default package
 import java.util.Scanner;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-
+import javafx.application.Application; 
+import javafx.scene.Scene; 
+import javafx.scene.layout.GridPane; 
+import javafx.stage.Stage;
 
 /*
  * Usage: java <pkgname>.Main <input file> test
  * input file is optional.  If input file is specified, the word 'test' is optional.
  * May not use 'test' argument without specifying input file.
  */
-public class Main {
+public class Main extends Application{
 
     static Scanner kb;	// scanner connected to keyboard input, or input file
     private static String inputFile;	// input file, used instead of keyboard input if specified
@@ -31,7 +34,18 @@ public class Main {
     private static boolean DEBUG = false; // Use it or not, as you wish!
     static PrintStream old = System.out;	// if you want to restore output to console
 
-
+    static GridPane grid = new GridPane();
+    @Override public void start(Stage primaryStage) {
+    try {
+    grid.setGridLinesVisible(true);
+    Scene scene = new Scene(grid, 500, 500); 
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    // Paints the icons. 
+    Painter.paint();
+    } catch(Exception e) { e.printStackTrace(); }
+    } 
+    
     // Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
