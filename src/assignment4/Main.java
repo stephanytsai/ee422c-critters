@@ -16,7 +16,8 @@ import java.util.Scanner;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import javafx.application.Application; 
-import javafx.scene.Scene; 
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane; 
 import javafx.stage.Stage;
 
@@ -25,7 +26,7 @@ import javafx.stage.Stage;
  * input file is optional.  If input file is specified, the word 'test' is optional.
  * May not use 'test' argument without specifying input file.
  */
-public class Main extends Application{
+public class Main{
 
     static Scanner kb;	// scanner connected to keyboard input, or input file
     private static String inputFile;	// input file, used instead of keyboard input if specified
@@ -34,17 +35,7 @@ public class Main extends Application{
     private static boolean DEBUG = false; // Use it or not, as you wish!
     static PrintStream old = System.out;	// if you want to restore output to console
 
-    static GridPane grid = new GridPane();
-    @Override public void start(Stage primaryStage) {
-    try {
-    grid.setGridLinesVisible(true);
-    Scene scene = new Scene(grid, 500, 500); 
-    primaryStage.setScene(scene);
-    primaryStage.show();
-    // Paints the icons. 
-    Painter.paint();
-    } catch(Exception e) { e.printStackTrace(); }
-    } 
+
     
     // Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
     static {
@@ -107,7 +98,7 @@ public class Main extends Application{
         	}
         	inputArray=userinput.split("\\s+"); 
         	if(!Help.validInput(inputArray)){
-        		System.out.println("invalid command: "+userinput);		
+        		System.out.println("error processing: "+userinput);		
                 System.out.print("critters>");
         		continue;
         	}
@@ -122,7 +113,10 @@ public class Main extends Application{
         	System.out.print("critters>");
         }
         /* Write your code above */
-        System.out.flush();
+        System.out.flush(); 
 
     }
+
+
+
 }

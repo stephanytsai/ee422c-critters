@@ -19,7 +19,7 @@
  */
 package assignment4;
 
-public class MyCritter3 extends Critter {
+public class Critter3 extends Critter {
 	@Override
 	public String toString() {
 		return "3"; 

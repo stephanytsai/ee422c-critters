@@ -17,6 +17,9 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.List;
 
+import assignment4.Critter;
+import assignment4.Params;
+
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter
@@ -52,8 +55,8 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	protected int getX(){ return x_coord;}
-	protected int getY(){ return y_coord;}
+
+	
 	
 	protected final void walk(int direction) {
 		if (direction==0){
@@ -359,7 +362,7 @@ public abstract class Critter {
 	 * @return
 	 */
 	public boolean isSamePostion(Critter c2) {
-		if ( (this.getX() == c2.getX()) && (this.getY() == c2.getY())){
+		if ( (this.x_coord == c2.x_coord) && (this.y_coord == c2.y_coord)){
 			return true;
 		}
 		else {
@@ -479,9 +482,10 @@ public abstract class Critter {
 	 * prints bottom border
 	 * print matrix
 	 */
+	static String world[][]; ////TODO figure out how to make the world seeable from look (cannot access
 	public static void displayWorld() {
-		String array[][]=new String[Params.world_width][Params.world_height];  //height is rows, width is cols
-
+	//	String array[][]=new String[Params.world_width][Params.world_height];  //height is rows, width is cols
+		 world=new  String[Params.world_width][Params.world_height]; 
 		Iterator I= CritterWorld.critterCollection.iterator(); 
 		Critter current; 
 		String word;
@@ -489,7 +493,7 @@ public abstract class Critter {
 			current=(Critter) I.next();
 			int x=current.getEnergy();
 		//	System.out.println("Energy: " + current.getClass()+ " "+ x);  //DEBUG
-			array[current.x_coord][current.y_coord]=current.toString();
+			world[current.x_coord][current.y_coord]=current.toString();
 			
 		}
 
@@ -505,10 +509,10 @@ public abstract class Critter {
 		for (int i=0; i<Params.world_height; i++){
 			System.out.print("|"); //side border
 			for (int j=0; j<Params.world_width; j++){ //prints each row
-				if(array[j][i]==null){
+				if(world[j][i]==null){
 					System.out.print(" "); 
 				}else{
-					System.out.print(array[j][i]); 
+					System.out.print(world[j][i]); 
 				}
 			}
 			System.out.println("|");
@@ -521,4 +525,6 @@ public abstract class Critter {
 		}
 		System.out.println("+"); 		
 	}
+
+
 }

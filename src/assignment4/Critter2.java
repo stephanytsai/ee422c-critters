@@ -19,11 +19,11 @@
  */
 package assignment4;
 
-public class MyCritter2 extends Critter{
+public class Critter2 extends Critter{
 	
 	public int dir;
 	// Tiger constructor
-	public MyCritter2() {
+	public Critter2() {
 		dir = Critter.getRandomInt(8);
 	}
 	
@@ -37,8 +37,8 @@ public class MyCritter2 extends Critter{
 	@Override
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
-		this.run(dir); 
-		
+	 
+		this.run(2);
 	}
 
 	@Override

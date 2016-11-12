@@ -14,6 +14,7 @@
 package assignment4;
 
 import java.util.List;
+import java.lang.reflect.*;
 
 public class Help {
 	/**
@@ -71,7 +72,7 @@ public class Help {
      * @param array
      * @return true: all words 
      */
-	public static boolean validInput (String[] array){ //deleted static from both //TODO no hard coding critter types
+	public static boolean validInput (String[] array){ //deleted static from both //
 		String[] valid={"make", "show", "step", "seed", "stats","quit"};
 		boolean gotvalid=false;
 		int num;
@@ -175,14 +176,29 @@ public class Help {
 			String holder="";
 			Class critterType;
 			try { 
-				holder=holder.concat("assignment4."+a[1]);
+				holder=holder.concat("assignment4."+ a[1]);
 				critterType = Class.forName(holder);
 			} catch (ClassNotFoundException e) {
 				System.out.println("error processing: "+user);
 				return false;
 			}
-			List<Critter> types=Critter.getInstances(holder);
-			Critter.runStats(types);			
+			List<Critter> instances=Critter.getInstances(holder);
+			Class<?>[] types={List.class};
+			Method method_object=null;
+			try {
+				method_object = critterType.getMethod("runStats", types);
+			} catch (NoSuchMethodException e) {
+			} catch (SecurityException e) {
+			}
+			try {
+				method_object.invoke(null, instances);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			
 			return false;
 		}else{
 			System.out.println("error processing: "+ user);

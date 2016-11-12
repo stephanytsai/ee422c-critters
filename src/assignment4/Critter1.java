@@ -20,7 +20,7 @@
  */
 package assignment4;
 
-public class MyCritter1 extends Critter {
+public class Critter1 extends Critter {
 	
 	@Override
 	public String toString() {
@@ -31,7 +31,7 @@ public class MyCritter1 extends Critter {
 	public void doTimeStep() {
 		// TODO Auto-generated method stub
 		if (this.getEnergy()>200){
-			MyCritter1 offspring=new MyCritter1();
+			Critter1 offspring=new Critter1();
 			this.reproduce(offspring, 0);
 		}else{
 			this.run(5);
